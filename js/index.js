@@ -5,12 +5,14 @@ var buttonRock = document.getElementById('rock');
 var buttonScissors = document.getElementById('scissors');
 var buttonNewGame = document.getElementById('ng');
 var roundsToWin;
-var playerPoints = 0;
-var compPoints = 0;
-var round = 0;
 var gameDone;
 var userChoice;
 var rounds;
+var params = {
+  playerPoints: 0,
+  compPoints: 0,
+  round: 0,
+};
 // LOOP
 var playerMove = document.querySelectorAll('.player-move');
 
@@ -56,10 +58,10 @@ var compare = function(userChoice, compChoice) {
     (userChoice == 'rock') && (compChoice == 'scissors') || 
     (userChoice == 'paper') && (compChoice == 'rock') || 
     (userChoice == 'scissors') && (compChoice == 'paper')) {
-    playerPoints++;
+    params.playerPoints++;
     return 'You won!';
   } else {
-    compPoints++;
+    params.compPoints++;
     return'You lost!'; 
      }
 }
@@ -70,19 +72,19 @@ var games = function(){
 };
 
 var scores = function(){
-  document.getElementById('playerPoints').innerHTML = 'Player: ' + playerPoints;
-  document.getElementById('compPoints').innerHTML = 'Computer: ' + compPoints; 
-  document.getElementById('round').innerHTML = round;
+  document.getElementById('playerPoints').innerHTML = 'Player: ' + params.playerPoints;
+  document.getElementById('compPoints').innerHTML = 'Computer: ' + params.compPoints; 
+  document.getElementById('round').innerHTML = params.round;
 };
 
 // Reset a game
 var resetGame = function(){
-    playerPoints = 0;
-    compPoints = 0;
-    round = 0;
-    document.getElementById('playerPoints').innerHTML = 'Player: ' +        playerPoints;
-    document.getElementById('compPoints').innerHTML = 'Computer: ' + compPoints; 
-    document.getElementById('round').innerHTML = round;
+    params.playerPoints = 0;
+    params.compPoints = 0;
+    params.round = 0;
+    document.getElementById('playerPoints').innerHTML = 'Player: ' + params.playerPoints;
+    document.getElementById('compPoints').innerHTML = 'Computer: ' + params.compPoints; 
+    document.getElementById('round').innerHTML = params.round;
     document.getElementById('paper').disabled = false;
     document.getElementById('rock').disabled = false;
     document.getElementById('scissors').disabled = false;
@@ -90,7 +92,7 @@ var resetGame = function(){
   }
 // main function
 var wholeGame = function(userChoice){
-  round++;
+  params.round++;
   var compMove = pcNumber();
   var compChoice = pcMove(compMove);
   var result = compare(userChoice, compChoice);
@@ -102,7 +104,7 @@ var wholeGame = function(userChoice){
 
 // functions (check and finisher) needed to finish the game
 var check = function(){
-  if ((roundsToWin === playerPoints) || (roundsToWin === compPoints)){
+  if ((roundsToWin === params.playerPoints) || (roundsToWin === params.compPoints)){
     gameDone = true;
     buttonsBlock();
   } else {
@@ -111,28 +113,12 @@ var check = function(){
  };
 
 var finisher = function(){
-  if ((gameDone == true) && (roundsToWin === playerPoints)){
+  if ((gameDone == true) && (roundsToWin === params.playerPoints)){
     output.innerHTML = 'You won the entire game! Congrats! ' + '<br><br>' + 'Now, please press the "New Game" button to play again! ';
-  } else if ((gameDone == true) && (roundsToWin === compPoints)){
+  } else if ((gameDone == true) && (roundsToWin === params.compPoints)){
     output.innerHTML = 'You lost the entire game!' + '<br><br>' + 'Now, please press the "New Game" button to play again! ';
   }
 }
-
-// buttons
-/*buttonPaper.addEventListener('click', function(){
-  var userChoice = 'paper';
-  wholeGame(userChoice);
-})
-
-buttonRock.addEventListener('click', function(){
-  var userChoice = 'rock';
-  wholeGame(userChoice);
-})
-
-buttonScissors.addEventListener('click', function(){
-  var userChoice = 'scissors';
-  wholeGame(userChoice);
-});*/
 
 buttonNewGame.addEventListener('click', function(){
   rounds = window.prompt('Please specify the number of rounds needed to win');
@@ -146,3 +132,4 @@ buttonNewGame.addEventListener('click', function(){
     return roundsToWin;
  }
 })
+
