@@ -10,6 +10,18 @@ var compPoints = 0;
 var round = 0;
 var gameDone;
 var userChoice;
+var rounds;
+// LOOP
+var playerMove = document.querySelectorAll('.player-move');
+
+for (var i = 0; i < playerMove.length; i++) {
+  var userChoice = playerMove[i].getAttribute('data-move');
+  playerMove[i].addEventListener('click', function () {
+    
+    wholeGame(userChoice);
+  });
+
+}
 // Computer choice
 var pcNumber = function(){
   return Math.floor(Math.random()*3+1);
@@ -107,7 +119,7 @@ var finisher = function(){
 }
 
 // buttons
-buttonPaper.addEventListener('click', function(){
+/*buttonPaper.addEventListener('click', function(){
   var userChoice = 'paper';
   wholeGame(userChoice);
 })
@@ -120,7 +132,7 @@ buttonRock.addEventListener('click', function(){
 buttonScissors.addEventListener('click', function(){
   var userChoice = 'scissors';
   wholeGame(userChoice);
-});
+});*/
 
 buttonNewGame.addEventListener('click', function(){
   rounds = window.prompt('Please specify the number of rounds needed to win');
