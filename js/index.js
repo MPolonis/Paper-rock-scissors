@@ -114,8 +114,10 @@ var check = function(){
 
 var finisher = function(){
   if ((gameDone == true) && (roundsToWin === params.playerPoints)){
+    showModal();
     output.innerHTML = 'You won the entire game! Congrats! ' + '<br><br>' + 'Now, please press the "New Game" button to play again! ';
   } else if ((gameDone == true) && (roundsToWin === params.compPoints)){
+    showModal();
     output.innerHTML = 'You lost the entire game!' + '<br><br>' + 'Now, please press the "New Game" button to play again! ';
   }
 }
@@ -133,3 +135,41 @@ buttonNewGame.addEventListener('click', function(){
  }
 })
 
+// MODAl
+var modals = document.querySelectorAll('.modal');
+
+var showModal = function (event) {
+  //event.preventDefault();
+  for (var i = 0; i < modals.length; i++) {
+    modals[i].classList.remove('show');
+  }
+  document.querySelector('#modal-results').classList.add('show');
+  document.querySelector('#modal-overlay').classList.add('show');
+};
+
+var modalLinks = document.querySelectorAll('.show-modal');
+
+for (var i = 0; i < modalLinks.length; i++) {
+  modalLinks[i].addEventListener('click', showModal);
+}
+
+var hideModal = function (event) {
+  event.preventDefault();
+  document.querySelector('#modal-overlay').classList.remove('show');
+};
+
+var closeButtons = document.querySelectorAll('.modal .close');
+
+for (var i = 0; i < closeButtons.length; i++) {
+  closeButtons[i].addEventListener('click', hideModal);
+}
+
+document.querySelector('#modal-overlay').addEventListener('click', hideModal);
+
+
+
+for (var i = 0; i < modals.length; i++) {
+  modals[i].addEventListener('click', function (event) {
+    event.stopPropagation();
+  });
+}
