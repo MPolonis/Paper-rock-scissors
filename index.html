@@ -43,9 +43,6 @@
 <div class="btn">
   <button id="ng">New Game</button>
 </div>
-<p>
-  <a href="#modal-one" class="show-modal">Show modal one</a>
-</p>
 <div class="overlay" id="modal-overlay">
   <div class="modal" id="modal-results-win">
     <a href="#" class="close">x</a>
@@ -62,6 +59,19 @@
       <p>You lost the entire game!
         <br> Now, please press the "New Game" button to play again!</p>
     </div>
+  </div>
+  <div class="modal" id="modal-table">
+    <table>
+      <thead>
+        <tr>
+          <th>Result</th>
+          <th>Your move</th>
+          <th>Computer move</th>
+        </tr>
+      </thead>
+      <tbody class="game-table">
+      </tbody>
+    </table>
   </div>
 </div>
   

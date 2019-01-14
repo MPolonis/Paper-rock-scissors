@@ -12,6 +12,7 @@ var params = {
   playerPoints: 0,
   compPoints: 0,
   round: 0,
+  progress: [],
 };
 // LOOP
 var playerMove = document.querySelectorAll('.player-move');
@@ -97,6 +98,11 @@ var wholeGame = function(userChoice){
   var compChoice = pcMove(compMove);
   var result = compare(userChoice, compChoice);
   output.innerHTML = result + ' You played: ' + userChoice + '. Computer played: ' + compChoice + '.' + '<br>';
+  params.progress.push({
+    compChoice: compChoice,
+    userChoice: userChoice,
+    result: result
+  });
   scores();
   check();
   showModal();
@@ -129,6 +135,12 @@ buttonNewGame.addEventListener('click', function(){
 var modals = document.querySelectorAll('.modal');
 
 var showModal = function (event) {
+  var gameResults = document.querySelector('.game-table');
+
+  for (var i = 0; i < params.progress.length; i++) {
+    gameResults.innerHTML += '<tr><td>' + params.progress[i].result + '</td><td>' + params.progress[i].userChoice + '</td><td>' + params.progress[i].compChoice + '</td></tr>';
+  }
+  document.querySelector('#modal-table').classList.add('show');
   
   if ((gameDone == true) && (roundsToWin === params.playerPoints)) {
     for (var i = 0; i < modals.length; i++) {
