@@ -99,7 +99,7 @@ var wholeGame = function(userChoice){
   output.innerHTML = result + ' You played: ' + userChoice + '. Computer played: ' + compChoice + '.' + '<br>';
   scores();
   check();
-  finisher();
+  showModal();
 }
 
 // functions (check and finisher) needed to finish the game
@@ -111,16 +111,6 @@ var check = function(){
     gameDone = false;
   }
  };
-
-var finisher = function(){
-  if ((gameDone == true) && (roundsToWin === params.playerPoints)){
-    showModal();
-    output.innerHTML = 'You won the entire game! Congrats! ' + '<br><br>' + 'Now, please press the "New Game" button to play again! ';
-  } else if ((gameDone == true) && (roundsToWin === params.compPoints)){
-    showModal();
-    output.innerHTML = 'You lost the entire game!' + '<br><br>' + 'Now, please press the "New Game" button to play again! ';
-  }
-}
 
 buttonNewGame.addEventListener('click', function(){
   rounds = window.prompt('Please specify the number of rounds needed to win');
@@ -139,13 +129,19 @@ buttonNewGame.addEventListener('click', function(){
 var modals = document.querySelectorAll('.modal');
 
 var showModal = function (event) {
-  //event.preventDefault();
-  for (var i = 0; i < modals.length; i++) {
-    modals[i].classList.remove('show');
+  
+  if ((gameDone == true) && (roundsToWin === params.playerPoints)) {
+    for (var i = 0; i < modals.length; i++) {
+      modals[i].classList.remove('show');
+    }
+    document.querySelector('#modal-results-win').classList.add('show');
+    document.querySelector('#modal-overlay').classList.add('show');
+  } else if ((gameDone == true) && (roundsToWin === params.compPoints)) {
+    document.querySelector('#modal-results-lose').classList.add('show');
+    document.querySelector('#modal-overlay').classList.add('show');
   }
-  document.querySelector('#modal-results').classList.add('show');
-  document.querySelector('#modal-overlay').classList.add('show');
-};
+}
+
 
 var modalLinks = document.querySelectorAll('.show-modal');
 
