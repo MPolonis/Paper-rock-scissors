@@ -8,6 +8,7 @@ var roundsToWin;
 var gameDone;
 var userChoice;
 var rounds;
+var sth;
 var params = {
   playerPoints: 0,
   compPoints: 0,
@@ -105,7 +106,8 @@ var wholeGame = function(userChoice){
   });
   scores();
   check();
-  showModal();
+  var sth = finisher();
+  showModal(sth);
 }
 
 // functions (check and finisher) needed to finish the game
@@ -117,6 +119,16 @@ var check = function(){
     gameDone = false;
   }
  };
+
+var finisher = function() {
+  if ((gameDone == true) && (roundsToWin === params.playerPoints)) {
+    //output.innerHTML = 
+    return 'You won the entire game! Congrats! ' + '<br><br>' + 'Now, please press the "New Game" button to play again! ';
+  } else if ((gameDone == true) && (roundsToWin === params.compPoints)) {
+    //output.innerHTML = 
+    return 'You lost the entire game!' + '<br><br>' + 'Now, please press the "New Game" button to play again! ';
+  }
+};
 
 buttonNewGame.addEventListener('click', function(){
   rounds = window.prompt('Please specify the number of rounds needed to win');
@@ -134,14 +146,18 @@ buttonNewGame.addEventListener('click', function(){
 // MODAl
 var modals = document.querySelectorAll('.modal');
 
-var showModal = function (event) {
+var showModal = function(sth) {
   var gameResults = document.querySelector('.game-table');
+ // document.querySelector('#modal-results-lose').classList.add('show');
+  document.querySelector('#modal-overlay').classList.add('show');
 
   for (var i = 0; i < params.progress.length; i++) {
-    gameResults.innerHTML += '<tr><td>' + params.progress[i].result + '</td><td>' + params.progress[i].userChoice + '</td><td>' + params.progress[i].compChoice + '</td></tr>';
+    gameResults.innerHTML += sth + '<tr><td>' + params.progress[i].result + '</td><td>' + params.progress[i].userChoice + '</td><td>' + params.progress[i].compChoice + '</td></tr>';
+
   }
   document.querySelector('#modal-table').classList.add('show');
   
+  /*
   if ((gameDone == true) && (roundsToWin === params.playerPoints)) {
     for (var i = 0; i < modals.length; i++) {
       modals[i].classList.remove('show');
@@ -151,7 +167,7 @@ var showModal = function (event) {
   } else if ((gameDone == true) && (roundsToWin === params.compPoints)) {
     document.querySelector('#modal-results-lose').classList.add('show');
     document.querySelector('#modal-overlay').classList.add('show');
-  }
+  }*/
 }
 
 
