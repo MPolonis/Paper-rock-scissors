@@ -19,10 +19,11 @@ var params = {
 var playerMove = document.querySelectorAll('.player-move');
 
 for (var i = 0; i < playerMove.length; i++) {
-  var userChoice = playerMove[i].getAttribute('data-move');
+  
   playerMove[i].addEventListener('click', function () {
-    
+    userChoice = event.target.getAttribute('data-move');
     wholeGame(userChoice);
+    return;
   });
 
 }
@@ -91,6 +92,7 @@ var resetGame = function(){
     document.getElementById('rock').disabled = false;
     document.getElementById('scissors').disabled = false;
     output.innerHTML = "Let's start!"; 
+    params.progress.length = 0;
   }
 // main function
 var wholeGame = function(userChoice){
@@ -106,8 +108,8 @@ var wholeGame = function(userChoice){
   });
   scores();
   check();
-  var sth = finisher();
-  showModal(sth);
+  finisher();
+  showModal();
 }
 
 // functions (check and finisher) needed to finish the game
@@ -120,12 +122,11 @@ var check = function(){
   }
  };
 
+
 var finisher = function() {
   if ((gameDone == true) && (roundsToWin === params.playerPoints)) {
-    //output.innerHTML = 
     return 'You won the entire game! Congrats! ' + '<br><br>' + 'Now, please press the "New Game" button to play again! ';
   } else if ((gameDone == true) && (roundsToWin === params.compPoints)) {
-    //output.innerHTML = 
     return 'You lost the entire game!' + '<br><br>' + 'Now, please press the "New Game" button to play again! ';
   }
 };
@@ -146,28 +147,21 @@ buttonNewGame.addEventListener('click', function(){
 // MODAl
 var modals = document.querySelectorAll('.modal');
 
-var showModal = function(sth) {
+var showModal = function() {
+  if ((roundsToWin === params.playerPoints) || (roundsToWin === params.compPoints)) {
+  event.preventDefault();
+  
   var gameResults = document.querySelector('.game-table');
- // document.querySelector('#modal-results-lose').classList.add('show');
-  document.querySelector('#modal-overlay').classList.add('show');
 
   for (var i = 0; i < params.progress.length; i++) {
-    gameResults.innerHTML += sth + '<tr><td>' + params.progress[i].result + '</td><td>' + params.progress[i].userChoice + '</td><td>' + params.progress[i].compChoice + '</td></tr>';
+    gameResults.innerHTML += sth + '<br/>' + '<tr><td>' + params.progress[i].result + '</td><td>' + params.progress[i].userChoice + '</td><td>' + params.progress[i].compChoice + '</td></tr>';
 
   }
-  document.querySelector('#modal-table').classList.add('show');
-  
-  /*
-  if ((gameDone == true) && (roundsToWin === params.playerPoints)) {
-    for (var i = 0; i < modals.length; i++) {
-      modals[i].classList.remove('show');
-    }
-    document.querySelector('#modal-results-win').classList.add('show');
-    document.querySelector('#modal-overlay').classList.add('show');
-  } else if ((gameDone == true) && (roundsToWin === params.compPoints)) {
-    document.querySelector('#modal-results-lose').classList.add('show');
-    document.querySelector('#modal-overlay').classList.add('show');
-  }*/
+  //var gamer = document.querySelector('.content');
+  //gamer.innerHTML = sth;
+  document.querySelector('#modal-results').classList.add('show');
+  document.querySelector('#modal-overlay').classList.add('show');
+}
 }
 
 

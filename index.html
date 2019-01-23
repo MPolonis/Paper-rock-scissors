@@ -44,36 +44,24 @@
   <button id="ng">New Game</button>
 </div>
 <div class="overlay" id="modal-overlay">
-  <div class="modal" id="modal-results-win">
+  <div class="modal" id="modal-results">
     <a href="#" class="close">x</a>
     <header>Results</header>
     <div class="content">
-      <p>You won the entire game! Congrats!<br>
-      Now, please press the "New Game" button to play again!</p>
-    </div>
+      <p></p>
+      <table>
+        <thead>
+          <tr>
+            <th>Result</th>
+            <th>Your move</th>
+            <th>Computer move</th>
+          </tr>
+        </thead>
+        <tbody class="game-table">
+        </tbody>
+      </table>
   </div>
-  <div class="modal" id="modal-results-lose">
-    <a href="#" class="close">x</a>
-    <header>Results</header>
-    <div class="content">
-      <p>You lost the entire game!
-        <br> Now, please press the "New Game" button to play again!</p>
-    </div>
-  </div>
-  <div class="modal" id="modal-table">
-    <table>
-      <thead>
-        <tr>
-          <th>Result</th>
-          <th>Your move</th>
-          <th>Computer move</th>
-        </tr>
-      </thead>
-      <tbody class="game-table">
-      </tbody>
-    </table>
-  </div>
-</div>
+  
   
 
     <script  src="js/index.js"></script>
