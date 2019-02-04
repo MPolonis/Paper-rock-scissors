@@ -70,7 +70,7 @@ var compare = function(userChoice, compChoice) {
 }
 
 // New Game
-var games = function(){
+var displayRounds = function(){
   document.getElementById('round').innerHTML = round;
 };
 
@@ -143,7 +143,7 @@ buttonNewGame.addEventListener('click', function(){
     output.innerHTML = 'Please specify the number of rounds needed to win'; 
    } else {
     roundsToWin = parseInt(rounds);
-    games(roundsToWin);
+    displayRounds(roundsToWin);
     document.getElementById('noOfGames').innerHTML = rounds;
     resetGame();
     return roundsToWin;
@@ -154,7 +154,7 @@ buttonNewGame.addEventListener('click', function(){
 
 var modals = document.querySelectorAll('.modal');
 var gameResults = document.querySelector('.game-table');
-var roundsMeter = 1;
+var roundsMeter;
 var showModal = function() {
   
   document.querySelector('.winner').innerHTML = finisher();
@@ -168,15 +168,11 @@ var showModal = function() {
 }
 
 
-var modalLinks = document.querySelectorAll('.show-modal');
 
-for (var i = 0; i < modalLinks.length; i++) {
-  modalLinks[i].addEventListener('click', showModal);
-}
 
 var hideModal = function (event) {
   event.preventDefault();
-  gameResults.innerHTML = params.progress.length = 0;
+  gameResults.innerHTML = params.progress.length = '';
   document.querySelector('#modal-overlay').classList.remove('show');
 };
 
