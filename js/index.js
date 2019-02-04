@@ -19,7 +19,7 @@ var params = {
 var playerMove = document.querySelectorAll('.player-move');
 
 for (var i = 0; i < playerMove.length; i++) {
-  
+
   playerMove[i].addEventListener('click', function () {
     userChoice = event.target.getAttribute('data-move');
     wholeGame(userChoice);
@@ -31,7 +31,7 @@ for (var i = 0; i < playerMove.length; i++) {
 var pcNumber = function(){
   return Math.floor(Math.random()*3+1);
 };
-var pcMove = function(pcNumber){ 
+var pcMove = function(pcNumber){
   if (pcNumber == 1) {
     return 'paper'
   } else if (pcNumber == 2) {
@@ -56,27 +56,27 @@ var buttonsBlock = function(){
 // Comparison
 var compare = function(userChoice, compChoice) {
   if (userChoice === compChoice) {
-    return 'Tie!'; 
+    return 'Tie!';
   } else if (
-    (userChoice == 'rock') && (compChoice == 'scissors') || 
-    (userChoice == 'paper') && (compChoice == 'rock') || 
+    (userChoice == 'rock') && (compChoice == 'scissors') ||
+    (userChoice == 'paper') && (compChoice == 'rock') ||
     (userChoice == 'scissors') && (compChoice == 'paper')) {
     params.playerPoints++;
     return 'You won!';
   } else {
     params.compPoints++;
-    return'You lost!'; 
+    return'You lost!';
      }
 }
 
 // New Game
-var games = function(){
-  document.getElementById('round').innerHTML = round;
+var games = function (roundsToWin){
+  document.getElementById('round').innerHTML = roundsToWin;
 };
 
 var scores = function(){
   document.getElementById('playerPoints').innerHTML = 'Player: ' + params.playerPoints;
-  document.getElementById('compPoints').innerHTML = 'Computer: ' + params.compPoints; 
+  document.getElementById('compPoints').innerHTML = 'Computer: ' + params.compPoints;
   document.getElementById('round').innerHTML = params.round;
 };
 
@@ -88,13 +88,13 @@ var resetGame = function(){
     params.round = 0;
     roundsMeter = 1;
     document.getElementById('playerPoints').innerHTML = 'Player: ' + params.playerPoints;
-    document.getElementById('compPoints').innerHTML = 'Computer: ' + params.compPoints; 
+    document.getElementById('compPoints').innerHTML = 'Computer: ' + params.compPoints;
     document.getElementById('round').innerHTML = params.round;
     document.getElementById('paper').disabled = false;
     document.getElementById('rock').disabled = false;
     document.getElementById('scissors').disabled = false;
-    output.innerHTML = "Let's start!"; 
-    
+    output.innerHTML = "Let's start!";
+
 
 
   }
@@ -109,18 +109,19 @@ var wholeGame = function(userChoice){
     compChoice: compChoice,
     userChoice: userChoice,
     result: result,
+    score: params.playerPoints + ':' + params.compPoints
   });
   scores();
   check();
-  finalResult = finisher();
-  
+  // finalResult = finisher();
+
 }
 
 // functions (check and finisher) needed to finish the game
 var check = function(){
   if ((roundsToWin === params.playerPoints) || (roundsToWin === params.compPoints)){
-    showModal();
     gameDone = true;
+    showModal();
     buttonsBlock();
   } else {
     gameDone = false;
@@ -128,24 +129,25 @@ var check = function(){
  };
 
 
-var finisher = function() {
+var checkGameWinner = function() {
+  console.log(gameDone, roundsToWin, params);
   if ((gameDone == true) && (roundsToWin === params.playerPoints)) {
-    output.innerHTML = 'You won the entire game! Congrats! ' + '<br><br>' + 'Now, please press the "New Game" button to play again! ';
+    return 'You won the entire game! Congrats! ' + '<br><br>' + 'Now, please press the "New Game" button to play again! ';
   } else if ((gameDone == true) && (roundsToWin === params.compPoints)) {
-    output.innerHTML = 'You lost the entire game!' + '<br><br>' + 'Now, please press the "New Game" button to play again! ';
+    return 'You lost the entire game!' + '<br><br>' + 'Now, please press the "New Game" button to play again! ';
   }
 };
 
 buttonNewGame.addEventListener('click', function(){
   rounds = window.prompt('Please specify the number of rounds needed to win');
   if ((rounds == '') || (rounds <= null) || (isNaN(rounds))){
-    output.innerHTML = 'Please specify the number of rounds needed to win'; 
+    output.innerHTML = 'Please specify the number of rounds needed to win';
    } else {
     roundsToWin = parseInt(rounds);
     games(roundsToWin);
     document.getElementById('noOfGames').innerHTML = rounds;
     resetGame();
-    return roundsToWin;
+    // return roundsToWin;
  }
 })
 
@@ -154,25 +156,25 @@ buttonNewGame.addEventListener('click', function(){
 var modals = document.querySelectorAll('.modal');
 var gameResults = document.querySelector('.game-table');
 var roundsMeter = 1;
+
 var showModal = function() {
-  
-  var finishSub = document.querySelector('.winner').innerHTML = finalResult;
+
+  document.querySelector('.winner').innerHTML = checkGameWinner();
 
 
   for (var i = 0; i < params.progress.length; i++) {
-    var points = params.playerPoints + ':' + params.compPoints;
-    gameResults.innerHTML += '<tr><td>' + roundsMeter++ + '</td><td>' + params.progress[i].result + '</td><td>' + params.progress[i].userChoice + '</td><td>' + params.progress[i].compChoice + '</td><td>' + points + '</td></tr>';
+    gameResults.innerHTML += '<tr><td>' + roundsMeter++ + '</td><td>' + params.progress[i].result + '</td><td>' + params.progress[i].userChoice + '</td><td>' + params.progress[i].compChoice + '</td><td>' + params.progress[i].score; + '</td></tr>';
   }
   document.querySelector('#modal-results').classList.add('show');
   document.querySelector('#modal-overlay').classList.add('show');
 }
 
 
-var modalLinks = document.querySelectorAll('.show-modal');
+// var modalLinks = document.querySelectorAll('.show-modal');
 
-for (var i = 0; i < modalLinks.length; i++) {
-  modalLinks[i].addEventListener('click', showModal);
-}
+// for (var i = 0; i < modalLinks.length; i++) {
+//   modalLinks[i].addEventListener('click', showModal);
+// }
 
 var hideModal = function (event) {
   event.preventDefault();
