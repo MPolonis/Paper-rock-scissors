@@ -8,7 +8,7 @@ var roundsToWin;
 var gameDone;
 var userChoice;
 var rounds;
-var sth;
+var finalResult;
 var params = {
   playerPoints: 0,
   compPoints: 0,
@@ -80,11 +80,13 @@ var scores = function(){
   document.getElementById('round').innerHTML = params.round;
 };
 
+
 // Reset a game
 var resetGame = function(){
     params.playerPoints = 0;
     params.compPoints = 0;
     params.round = 0;
+    roundsMeter = 1;
     document.getElementById('playerPoints').innerHTML = 'Player: ' + params.playerPoints;
     document.getElementById('compPoints').innerHTML = 'Computer: ' + params.compPoints; 
     document.getElementById('round').innerHTML = params.round;
@@ -92,7 +94,9 @@ var resetGame = function(){
     document.getElementById('rock').disabled = false;
     document.getElementById('scissors').disabled = false;
     output.innerHTML = "Let's start!"; 
-    params.progress.length = 0;
+    
+
+
   }
 // main function
 var wholeGame = function(userChoice){
@@ -104,17 +108,18 @@ var wholeGame = function(userChoice){
   params.progress.push({
     compChoice: compChoice,
     userChoice: userChoice,
-    result: result
+    result: result,
   });
   scores();
   check();
-  finisher();
-  showModal();
+  finalResult = finisher();
+  
 }
 
 // functions (check and finisher) needed to finish the game
 var check = function(){
   if ((roundsToWin === params.playerPoints) || (roundsToWin === params.compPoints)){
+    showModal();
     gameDone = true;
     buttonsBlock();
   } else {
@@ -125,9 +130,9 @@ var check = function(){
 
 var finisher = function() {
   if ((gameDone == true) && (roundsToWin === params.playerPoints)) {
-    return 'You won the entire game! Congrats! ' + '<br><br>' + 'Now, please press the "New Game" button to play again! ';
+    output.innerHTML = 'You won the entire game! Congrats! ' + '<br><br>' + 'Now, please press the "New Game" button to play again! ';
   } else if ((gameDone == true) && (roundsToWin === params.compPoints)) {
-    return 'You lost the entire game!' + '<br><br>' + 'Now, please press the "New Game" button to play again! ';
+    output.innerHTML = 'You lost the entire game!' + '<br><br>' + 'Now, please press the "New Game" button to play again! ';
   }
 };
 
@@ -145,23 +150,21 @@ buttonNewGame.addEventListener('click', function(){
 })
 
 // MODAl
-var modals = document.querySelectorAll('.modal');
 
+var modals = document.querySelectorAll('.modal');
+var gameResults = document.querySelector('.game-table');
+var roundsMeter = 1;
 var showModal = function() {
-  if ((roundsToWin === params.playerPoints) || (roundsToWin === params.compPoints)) {
-  event.preventDefault();
   
-  var gameResults = document.querySelector('.game-table');
+  var finishSub = document.querySelector('.winner').innerHTML = finalResult;
+
 
   for (var i = 0; i < params.progress.length; i++) {
-    gameResults.innerHTML += sth + '<br/>' + '<tr><td>' + params.progress[i].result + '</td><td>' + params.progress[i].userChoice + '</td><td>' + params.progress[i].compChoice + '</td></tr>';
-
+    var points = params.playerPoints + ':' + params.compPoints;
+    gameResults.innerHTML += '<tr><td>' + roundsMeter++ + '</td><td>' + params.progress[i].result + '</td><td>' + params.progress[i].userChoice + '</td><td>' + params.progress[i].compChoice + '</td><td>' + points + '</td></tr>';
   }
-  //var gamer = document.querySelector('.content');
-  //gamer.innerHTML = sth;
   document.querySelector('#modal-results').classList.add('show');
   document.querySelector('#modal-overlay').classList.add('show');
-}
 }
 
 
@@ -173,6 +176,7 @@ for (var i = 0; i < modalLinks.length; i++) {
 
 var hideModal = function (event) {
   event.preventDefault();
+  gameResults.innerHTML = params.progress.length = 0;
   document.querySelector('#modal-overlay').classList.remove('show');
 };
 
