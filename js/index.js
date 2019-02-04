@@ -109,18 +109,19 @@ var wholeGame = function(userChoice){
     compChoice: compChoice,
     userChoice: userChoice,
     result: result,
+    score: params.playerPoints + ':' + params.compPoints
   });
   scores();
   check();
-  finalResult = finisher();
+  //finalResult = finisher();
   
 }
 
 // functions (check and finisher) needed to finish the game
 var check = function(){
   if ((roundsToWin === params.playerPoints) || (roundsToWin === params.compPoints)){
-    showModal();
     gameDone = true;
+    showModal();
     buttonsBlock();
   } else {
     gameDone = false;
@@ -130,9 +131,9 @@ var check = function(){
 
 var finisher = function() {
   if ((gameDone == true) && (roundsToWin === params.playerPoints)) {
-    output.innerHTML = 'You won the entire game! Congrats! ' + '<br><br>' + 'Now, please press the "New Game" button to play again! ';
+    return 'You won the entire game! Congrats! ' + '<br><br>' + 'Now, please press the "New Game" button to play again! ';
   } else if ((gameDone == true) && (roundsToWin === params.compPoints)) {
-    output.innerHTML = 'You lost the entire game!' + '<br><br>' + 'Now, please press the "New Game" button to play again! ';
+    return 'You lost the entire game!' + '<br><br>' + 'Now, please press the "New Game" button to play again! ';
   }
 };
 
@@ -156,12 +157,11 @@ var gameResults = document.querySelector('.game-table');
 var roundsMeter = 1;
 var showModal = function() {
   
-  var finishSub = document.querySelector('.winner').innerHTML = finalResult;
+  document.querySelector('.winner').innerHTML = finisher();
 
 
   for (var i = 0; i < params.progress.length; i++) {
-    var points = params.playerPoints + ':' + params.compPoints;
-    gameResults.innerHTML += '<tr><td>' + roundsMeter++ + '</td><td>' + params.progress[i].result + '</td><td>' + params.progress[i].userChoice + '</td><td>' + params.progress[i].compChoice + '</td><td>' + points + '</td></tr>';
+    gameResults.innerHTML += '<tr><td>' + roundsMeter++ + '</td><td>' + params.progress[i].result + '</td><td>' + params.progress[i].userChoice + '</td><td>' + params.progress[i].compChoice + '</td><td>' + params.progress[i].score + '</td></tr>';
   }
   document.querySelector('#modal-results').classList.add('show');
   document.querySelector('#modal-overlay').classList.add('show');
